@@ -2,7 +2,7 @@
   "version": 2,
   "builds": [
     {
-      "src": "sistema-soporte/sistemafront/package.json",
+      "src": "sistemafront/package.json",
       "use": "@vercel/static-build"
     }
   ],
