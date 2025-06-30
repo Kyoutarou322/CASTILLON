@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "sistema-soporte": {
+    "sistemafront": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/sistema-soporte",
+            "outputPath": "dist/sistemafront",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
@@ -68,10 +68,10 @@
           },
           "configurations": {
             "production": {
-              "buildTarget": "sistema-soporte:build:production"
+              "buildTarget": "sistemafront:build:production"
             },
             "development": {
-              "buildTarget": "sistema-soporte:build:development"
+              "buildTarget": "sistemafront:build:development"
             }
           },
           "defaultConfiguration": "development"
