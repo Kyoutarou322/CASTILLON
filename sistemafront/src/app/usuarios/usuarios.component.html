@@ -1,0 +1,174 @@
+<div class="flex h-screen">
+  <!-- Sidebar -->
+  <aside class="w-64 bg-gray-800 text-white flex flex-col shadow-lg">
+    <!-- Título -->
+    <div class="bg-cyan-400 p-4 flex items-center justify-center mb-2">
+      <h1 class="text-xl font-bold text-gray-800">Landmech</h1>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="flex flex-col text-sm font-medium">
+      <a
+        routerLink="/presentacion"
+        [ngClass]="{
+          'bg-cyan-600 text-white': esRutaActiva('/presentacion'),
+          'hover:bg-cyan-600': !esRutaActiva('/presentacion')
+        }"
+        class="w-full px-6 py-3 transition mb-1"
+      >
+        Presentación
+      </a>
+      <a
+        routerLink="/layout"
+        [ngClass]="{
+          'bg-cyan-600 text-white': esRutaActiva('/layout'),
+          'hover:bg-cyan-600': !esRutaActiva('/layout')
+        }"
+        class="w-full px-6 py-3 transition mb-1"
+      >
+        Inicio
+      </a>
+      <a
+        routerLink="/inventario"
+        [ngClass]="{
+          'bg-cyan-500 text-white': esRutaActiva('/inventario'),
+          'hover:bg-cyan-600': !esRutaActiva('/inventario')
+        }"
+        class="w-full px-6 py-3 transition mb-1"
+      >
+        Productos
+      </a>
+      <a
+        routerLink="/historial"
+        [ngClass]="{
+          'bg-cyan-500 text-white': esRutaActiva('/historial'),
+          'hover:bg-cyan-600': !esRutaActiva('/historial')
+        }"
+        class="w-full px-6 py-3 transition mb-1"
+      >
+        Historial
+      </a>
+      <a
+        routerLink="/usuarios"
+        [ngClass]="{
+          'bg-cyan-600 text-white': esRutaActiva('/usuarios'),
+          'hover:bg-cyan-600': !esRutaActiva('/usuarios')
+        }"
+        class="w-full px-6 py-3 transition mb-1"
+      >
+        Usuarios
+      </a>
+      <a
+        routerLink="/dashboard"
+        [ngClass]="{
+          'bg-cyan-500 text-white': esRutaActiva('/dashboard'),
+          'hover:bg-cyan-600': !esRutaActiva('/dashboard')
+        }"
+        class="w-full px-6 py-3 transition mb-1"
+      >
+        Dashboard
+      </a>
+      <button
+  (click)="logout()"
+  class="text-left w-full px-6 py-3 transition text-red-300 hover:bg-red-600 hover:text-white mt-2"
+>
+  Salir
+</button>
+    </nav>
+  </aside>
+
+  <!-- Contenido principal -->
+<main class="flex-1 bg-gray-100 p-8 overflow-y-auto">
+  <div class="space-y-4 mb-6">
+    <h1 class="text-3xl font-bold text-gray-800">Usuarios del sistema</h1>
+    <p class="text-gray-600">Información en tiempo real de los usuarios conectados.</p>
+  </div>
+
+  <!-- Cuadros de usuarios -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 justify-end">
+    <div
+  *ngFor="let usuario of usuarios"
+  [ngClass]="usuario.conectado ? 'bg-green-500' : 'bg-red-500'"
+  class="rounded-xl shadow-lg text-white w-56 p-4 flex flex-col justify-between"
+>
+  <!-- Foto centrada -->
+  <div class="flex justify-center w-full">
+    <img
+      [src]="obtenerRutaImagen(usuario.username)"
+      alt="Foto de perfil"
+      class="w-32 h-32 rounded-full border-2 border-white mb-2 object-cover"
+      (error)="imagenError($event)"
+    />
+  </div>
+
+  <!-- Nombre centrado -->
+  <h3 class="text-lg font-bold mb-2 text-center w-full">{{ usuario.username }}</h3>
+
+  <!-- Info alineada a la izquierda -->
+  <div class="text-left w-full space-y-1">
+   <p class="text-sm flex items-center gap-2">
+  <strong>Rol:</strong> 
+  {{ usuario.rol }}
+
+  <!-- Mostrar botón SOLO si logueado es nestor -->
+  <ng-container *ngIf="usuarioLogueado?.username === 'nestor' && usuario.username !== 'nestor'">
+    
+    <!-- Si el usuario tiene rol USER, mostrar botón para hacerlo ADMIN -->
+    <button
+      *ngIf="usuario.rol === 'USER'"
+      (click)="cambiarRol(usuario, 'ADMIN')"
+      class="ml-2 text-xs bg-yellow-400 text-black px-2 py-1 rounded hover:bg-yellow-500 transition"
+    >
+      Hacer admin
+    </button>
+
+    <!-- Si el usuario tiene rol ADMIN, mostrar botón para degradarlo a USER -->
+    <button
+      *ngIf="usuario.rol === 'ADMIN'"
+      (click)="cambiarRol(usuario, 'USER')"
+      class="ml-2 text-xs bg-red-400 text-white px-2 py-1 rounded hover:bg-red-500 transition"
+    >
+      Quitar admin
+    </button>
+    
+  </ng-container>
+</p>
+
+    <p class="text-sm">
+      <strong>Conexión:</strong>
+      <span class="font-semibold">
+        {{ usuario.conectado ? 'Conectado' : 'Desconectado' }}
+      </span>
+    </p>
+    <p class="text-sm">
+      <strong>Última conexión:</strong>
+      {{ usuario.ultimaConexion | date:'yyyy-MM-dd HH:mm:ss' }}
+    </p>
+  </div>
+  <!-- Sección permisos -->
+<div class="mt-4 space-y-1 text-sm min-h-[72px]">
+  <ng-container *ngIf="usuarioLogueado?.rol === 'ADMIN' && usuario.rol !== 'ADMIN'; else sinPermisos">
+    <label class="flex items-center gap-2">
+      <input type="checkbox" [(ngModel)]="usuario.puedeRegistrar" (change)="guardarPermiso(usuario)" />
+      Puede registrar
+    </label>
+    <label class="flex items-center gap-2">
+      <input type="checkbox" [(ngModel)]="usuario.puedeActualizar" (change)="guardarPermiso(usuario)" />
+      Puede actualizar
+    </label>
+    <label class="flex items-center gap-2">
+      <input type="checkbox" [(ngModel)]="usuario.puedeEliminar" (change)="guardarPermiso(usuario)" />
+      Puede eliminar
+    </label>
+  </ng-container>
+
+  <!-- Placeholder cuando el usuario es ADMIN -->
+  <ng-template #sinPermisos>
+    <p class="text-center text-white text-xs italic opacity-70 mt-6">
+    </p>
+  </ng-template>
+</div>
+
+
+</div>
+

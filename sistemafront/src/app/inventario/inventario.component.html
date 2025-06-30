@@ -1,0 +1,348 @@
+<div class="flex h-screen">
+  <!-- Sidebar -->
+  <aside class="w-64 bg-gray-800 text-white flex flex-col shadow-lg">
+    <div class="bg-cyan-400 p-4 flex items-center justify-center mb-2">
+      <h1 class="text-xl font-bold text-gray-800">Landmech</h1>
+    </div>
+    <nav class="flex flex-col text-sm font-medium">
+      <a
+        routerLink="/presentacion"
+        [ngClass]="{
+          'bg-cyan-600 text-white': esRutaActiva('/presentacion'),
+          'hover:bg-cyan-600': !esRutaActiva('/presentacion')
+        }"
+        class="w-full px-6 py-3 transition mb-1"
+      >
+        Presentación
+      </a>
+      <a routerLink="/layout" [ngClass]="{ 'bg-cyan-600 text-white': esRutaActiva('/layout'), 'hover:bg-cyan-600': !esRutaActiva('/layout') }" class="w-full px-6 py-3 transition mb-1">Inicio</a>
+      <a routerLink="/inventario" [ngClass]="{ 'bg-cyan-600 text-white': esRutaActiva('/inventario'), 'hover:bg-cyan-600': !esRutaActiva('/inventario') }" class="w-full px-6 py-3 transition mb-1">Productos</a>
+      <a routerLink="/historial" [ngClass]="{ 'bg-cyan-500 text-white': esRutaActiva('/historial'), 'hover:bg-cyan-600': !esRutaActiva('/historial') }" class="w-full px-6 py-3 transition mb-1">Historial</a>
+      <a routerLink="/usuarios" [ngClass]="{ 'bg-cyan-500 text-white': esRutaActiva('/usuarios'), 'hover:bg-cyan-600': !esRutaActiva('/usuarios') }" class="w-full px-6 py-3 transition mb-1">Usuarios</a>
+      <a routerLink="/dashboard" [ngClass]="{ 'bg-cyan-500 text-white': esRutaActiva('/dashboard'), 'hover:bg-cyan-600': !esRutaActiva('/dashboard') }" class="w-full px-6 py-3 transition mb-1">Dashboard</a>
+      <a routerLink="/login" class="w-full px-6 py-3 transition text-red-300 hover:bg-red-600 hover:text-white mt-2">Salir</a>
+    </nav>
+  </aside>
+
+  <!-- Contenido principal -->
+  <main class="flex-1 bg-gray-100 p-8 overflow-y-auto">
+    <div class="space-y-4 mb-6">
+      <h1 class="text-3xl font-bold text-gray-800">Inventario de productos de Landmech</h1>
+      <p class="text-gray-600">Aquí se gestiona el inventario de la tienda.</p>
+    </div>
+
+  <!-- Segmentadores -->
+<div class="grid grid-cols-1 md:grid-cols-7 lg:grid-cols-8 gap-4 bg-white p-4 rounded-lg shadow mb-6 relative">
+  <div>
+    <label class="block text-sm font-medium text-gray-700 mb-1">Fecha</label>
+    <input type="date" [(ngModel)]="filtros.fecha" class="w-full border border-gray-300 rounded px-3 py-1.5 text-sm" />
+  </div>
+
+  <div>
+    <label class="block text-sm font-medium text-gray-700 mb-1">Nombre</label>
+    <input type="text" [(ngModel)]="filtros.nombre" placeholder="Buscar nombre" class="w-full border border-gray-300 rounded px-3 py-1.5 text-sm" />
+  </div>
+
+  <div>
+    <label class="block text-sm font-medium text-gray-700 mb-1">Categoría</label>
+    <select [(ngModel)]="filtros.categoria" class="w-full border border-gray-300 rounded px-3 py-1.5 text-sm">
+      <option value="">Todas</option>
+      <option value="Televisores">Televisores</option>
+      <option value="Refrigeradoras">Refrigeradoras</option>
+      <option value="Licuadoras">Licuadoras</option>
+      <option value="Microondas">Microondas</option>
+      <option value="Lavadoras">Lavadoras</option>
+      <option value="Cocinas">Cocinas</option>
+      <option value="Ventiladores">Ventiladores</option>
+      <option value="Planchas">Planchas</option>
+      <option value="Freidoras">Freidoras</option>
+      <option value="Cafeteras">Cafeteras</option>
+      <option value="Hornos">Hornos</option>
+      <option value="Batidoras">Batidoras</option>
+      <option value="Hervidores">Hervidores</option>
+      <option value="Congeladoras">Congeladoras</option>
+      <option value="Aire acondicionado">Aire acondicionado</option>
+    </select>
+  </div>
+
+  <div>
+    <label class="block text-sm font-medium text-gray-700 mb-1">Cantidad</label>
+    <input type="number" [(ngModel)]="filtros.cantidad" placeholder="Buscar" class="w-full border border-gray-300 rounded px-3 py-1.5 text-sm" />
+  </div>
+
+  <div>
+    <label class="block text-sm font-medium text-gray-700 mb-1">Precio Unitario</label>
+    <div class="flex items-center border border-gray-300 rounded px-2 py-1.5 bg-white">
+      <span class="text-sm text-gray-500 mr-1">S/.</span>
+      <input type="number" [(ngModel)]="filtros.precioUnitario" placeholder="0.00" class="w-full text-sm focus:outline-none" />
+    </div>
+  </div>
+
+  <div>
+    <label class="block text-sm font-medium text-gray-700 mb-1">Estado</label>
+    <select [(ngModel)]="filtros.estado" class="w-full border border-gray-300 rounded px-3 py-1.5 text-sm">
+      <option value="">Todos</option>
+      <option value="Activo">Activo</option>
+      <option value="Inactivo">Inactivo</option>
+    </select>
+  </div>
+
+  <div>
+    <label class="block text-sm font-medium text-gray-700 mb-1">Proveedor</label>
+    <select [(ngModel)]="filtros.proveedor" class="w-full border border-gray-300 rounded px-3 py-1.5 text-sm">
+      <option value="">Todos</option>
+      <option value="Electrodomésticos del Perú">Electrodomésticos del Perú</option>
+      <option value="Casa Blanca Perú">Casa Blanca Perú</option>
+      <option value="Soluciones Electromecánicas">Soluciones Electromecánicas</option>
+      <option value="Comercial Andina">Comercial Andina</option>
+      <option value="Redelcom S.A.C.">Redelcom S.A.C.</option>
+      <option value="TechHouse Perú">TechHouse Perú</option>
+      <option value="Mundo Eletrodoméstico">Mundo Eletrodoméstico</option>
+      <option value="Distribuciones Arce">Distribuciones Arce</option>
+      <option value="Perú Electro">Perú Electro</option>
+      <option value="ServiHogar">ServiHogar</option>
+    </select>
+  </div>
+
+  <div>
+    <label class="block text-sm font-medium text-gray-700 mb-1">Almacén</label>
+    <select [(ngModel)]="filtros.almacen" class="w-full border border-gray-300 rounded px-3 py-1.5 text-sm">
+      <option value="">Todos</option>
+      <option value="Almacén 1">Almacén 1</option>
+      <option value="Almacén 2">Almacén 2</option>
+      <option value="Almacén 3">Almacén 3</option>
+      <option value="Almacén 4">Almacén 4</option>
+      <option value="Almacén 5">Almacén 5</option>
+    </select>
+  </div>
+
+  <div>
+    <label class="block text-sm font-medium text-gray-700 mb-1">Inventario</label>
+    <select [(ngModel)]="filtros.inventario" class="w-full border border-gray-300 rounded px-3 py-1.5 text-sm">
+      <option value="">Todos</option>
+      <option value="Inventario 1">Inventario 1</option>
+      <option value="Inventario 2">Inventario 2</option>
+      <option value="Inventario 3">Inventario 3</option>
+      <option value="Inventario 4">Inventario 4</option>
+      <option value="Inventario 5">Inventario 5</option>
+    </select>
+  </div>
+
+  <div class="md:col-span-7 lg:col-span-8 text-right mt-1">
+    <button (click)="limpiarFiltros()" class="text-sm text-red-500 hover:underline">Limpiar filtros</button>
+  </div>
+</div>
+
+    <!-- Botón registrar producto -->
+    <div class="mb-4 flex justify-end">
+     <button
+  (click)="tienePermisoRegistrar() ? toggleFormularioRegistro() : mostrarMensajeSinPermiso()"
+  class="bg-cyan-600 hover:bg-cyan-700 text-white px-4 py-2 rounded shadow text-sm font-medium">
+  {{ mostrarFormularioRegistro ? 'Cancelar' : 'Registrar producto' }}
+</button>
+
+    </div>
+
+ <!-- Tabla -->
+<div class="overflow-auto bg-white shadow rounded-lg">
+  <table class="min-w-full divide-y divide-gray-200">
+    <thead class="bg-cyan-600 text-white">
+      <tr>
+        <th class="px-6 py-3 text-left text-xs font-bold uppercase">Fecha</th>
+        <th class="px-6 py-3 text-left text-xs font-bold uppercase">Nombre</th>
+        <th class="px-6 py-3 text-left text-xs font-bold uppercase">Categoría</th>
+        <th class="px-6 py-3 text-left text-xs font-bold uppercase">Cantidad</th>
+        <th class="px-6 py-3 text-left text-xs font-bold uppercase">Precio Unitario</th>
+        <th class="px-6 py-3 text-left text-xs font-bold uppercase">Total</th>
+        <th class="px-6 py-3 text-left text-xs font-bold uppercase">Estado</th>
+        <th class="px-6 py-3 text-left text-xs font-bold uppercase">Proveedor</th>
+        <th class="px-6 py-3 text-left text-xs font-bold uppercase">Almacén</th>
+        <th class="px-6 py-3 text-left text-xs font-bold uppercase">Inventario</th>
+        <th class="px-6 py-3 text-left text-xs font-bold uppercase">Acciones</th>
+      </tr>
+    </thead>
+    <tbody class="bg-white divide-y divide-gray-200">
+
+      <!-- Formulario de nuevo producto -->
+      <tr *ngIf="mostrarFormularioRegistro" class="bg-gray-100">
+        <td class="px-6 py-4 text-sm text-gray-700">{{ obtenerFechaHoy() }}</td>
+        <td class="px-6 py-4"><input [(ngModel)]="nuevoProducto.nombre" class="w-full p-1 border border-gray-300 rounded text-sm" placeholder="Nombre" /></td>
+        <td class="px-6 py-4">
+          <select [(ngModel)]="nuevoProducto.categoria" class="w-full p-1 border border-gray-300 rounded text-sm">
+            <option value="">Seleccione</option>
+      <option value="Televisores">Televisores</option>
+      <option value="Refrigeradoras">Refrigeradoras</option>
+      <option value="Licuadoras">Licuadoras</option>
+      <option value="Microondas">Microondas</option>
+      <option value="Lavadoras">Lavadoras</option>
+      <option value="Cocinas">Cocinas</option>
+      <option value="Ventiladores">Ventiladores</option>
+      <option value="Planchas">Planchas</option>
+      <option value="Freidoras">Freidoras</option>
+      <option value="Cafeteras">Cafeteras</option>
+      <option value="Hornos">Hornos</option>
+      <option value="Batidoras">Batidoras</option>
+      <option value="Hervidores">Hervidores</option>
+      <option value="Congeladoras">Congeladoras</option>
+      <option value="Aire acondicionado">Aire acondicionado</option>
+          </select>
+        </td>
+        <td class="px-6 py-4"><input type="number" [(ngModel)]="nuevoProducto.cantidad" class="w-full p-1 border border-gray-300 rounded text-sm" placeholder="Cantidad" /></td>
+        <td class="px-6 py-4"><input type="number" [(ngModel)]="nuevoProducto.precioUnitario" class="w-full p-1 border border-gray-300 rounded text-sm" placeholder="Precio" /></td>
+        <td class="px-6 py-4 text-sm text-gray-500 italic">Calculado</td>
+        <td class="px-6 py-4">
+          <select [(ngModel)]="nuevoProducto.estado" class="w-full p-1 border border-gray-300 rounded text-sm">
+            <option value="Activo">Activo</option>
+            <option value="Inactivo">Inactivo</option>
+          </select>
+        </td>
+        <td class="px-6 py-4">
+          <select [(ngModel)]="nuevoProducto.proveedorId" class="w-full p-1 border border-gray-300 rounded text-sm">
+  <option value="">Seleccione</option>
+  <option *ngFor="let p of proveedores" [value]="p.id">{{ p.nombre }}</option>
+</select>
+        </td>
+        <td class="px-6 py-4">
+          <select [(ngModel)]="nuevoProducto.almacenId" class="w-full p-1 border border-gray-300 rounded text-sm">
+  <option value="">Seleccione</option>
+  <option *ngFor="let a of almacenes" [value]="a.id">{{ a.nombre }}</option>
+</select>
+
+        </td>
+        <td class="px-6 py-4">
+          <select [(ngModel)]="nuevoProducto.inventarioId" class="w-full p-1 border border-gray-300 rounded text-sm">
+  <option value="">Seleccione</option>
+  <option *ngFor="let i of inventarios" [value]="i.id">{{ i.nombre }}</option>
+</select>
+        </td>
+        <td class="px-6 py-4 flex gap-2">
+          <button (click)="registrarProducto()" class="text-green-600 hover:underline text-sm font-semibold">Guardar</button>
+          <button (click)="cancelarRegistro()" class="text-red-600 hover:underline text-sm font-semibold">Cancelar</button>
+        </td>
+      </tr>
+
+      <!-- Productos existentes -->
+      <tr *ngFor="let producto of productosFiltrados; let i = index">
+        <td class="px-6 py-4 text-sm text-gray-700">{{ producto.fechaRegistro | date:'yyyy-MM-dd' }}</td>
+
+        <!-- Nombre -->
+        <td class="px-6 py-4 text-sm text-gray-700">
+          <ng-container *ngIf="editandoIndex === i; else nombreView">
+            <input [(ngModel)]="producto.nombre" class="w-full p-1 border border-gray-300 rounded text-sm" />
+          </ng-container>
+          <ng-template #nombreView>{{ producto.nombre }}</ng-template>
+        </td>
+
+        <!-- Categoría -->
+        <td class="px-6 py-4 text-sm text-gray-700">
+          <ng-container *ngIf="editandoIndex === i; else catView">
+            <select [(ngModel)]="producto.categoria" class="w-full p-1 border border-gray-300 rounded text-sm">
+      <option value="Televisores">Televisores</option>
+      <option value="Refrigeradoras">Refrigeradoras</option>
+      <option value="Licuadoras">Licuadoras</option>
+      <option value="Microondas">Microondas</option>
+      <option value="Lavadoras">Lavadoras</option>
+      <option value="Cocinas">Cocinas</option>
+      <option value="Ventiladores">Ventiladores</option>
+      <option value="Planchas">Planchas</option>
+      <option value="Freidoras">Freidoras</option>
+      <option value="Cafeteras">Cafeteras</option>
+      <option value="Hornos">Hornos</option>
+      <option value="Batidoras">Batidoras</option>
+      <option value="Hervidores">Hervidores</option>
+      <option value="Congeladoras">Congeladoras</option>
+      <option value="Aire acondicionado">Aire acondicionado</option>
+            </select>
+          </ng-container>
+          <ng-template #catView>{{ producto.categoria }}</ng-template>
+        </td>
+
+        <!-- Cantidad -->
+        <td class="px-6 py-4 text-sm text-gray-700">
+          <ng-container *ngIf="editandoIndex === i; else cantView">
+            <input type="number" [(ngModel)]="producto.cantidad" class="w-full p-1 border border-gray-300 rounded text-sm" />
+          </ng-container>
+          <ng-template #cantView>{{ producto.cantidad }}</ng-template>
+        </td>
+
+        <!-- Precio Unitario -->
+        <td class="px-6 py-4 text-sm text-gray-700">
+          <ng-container *ngIf="editandoIndex === i; else precioView">
+            <input type="number" [(ngModel)]="producto.precioUnitario" class="w-full p-1 border border-gray-300 rounded text-sm" />
+          </ng-container>
+          <ng-template #precioView>S/. {{ producto.precioUnitario }}</ng-template>
+        </td>
+
+        <!-- Total -->
+        <td class="px-6 py-4 text-sm text-gray-700">S/. {{ producto.total }}</td>
+
+        <!-- Estado -->
+        <td class="px-6 py-4 text-sm">
+          <ng-container *ngIf="editandoIndex === i; else estadoView">
+            <select [(ngModel)]="producto.estado" class="w-full p-1 border border-gray-300 rounded text-sm">
+              <option value="Activo">Activo</option>
+              <option value="Inactivo">Inactivo</option>
+            </select>
+          </ng-container>
+          <ng-template #estadoView>
+            <span [ngClass]="{ 'text-green-600 font-semibold': producto.estado === 'Activo', 'text-red-500 font-semibold': producto.estado !== 'Activo' }">
+              {{ producto.estado }}
+            </span>
+          </ng-template>
+        </td>
+
+        <!-- Proveedor -->
+        <td class="px-6 py-4 text-sm text-gray-700">
+          <ng-container *ngIf="editandoIndex === i; else provView">
+            <select [(ngModel)]="producto.proveedor" class="w-full p-1 border border-gray-300 rounded text-sm">
+              <option *ngFor="let i of [1,2,3,4,5,6,7,8,9,10]" [value]="'Proveedor ' + i">Proveedor {{ i }}</option>
+            </select>
+          </ng-container>
+          <ng-template #provView>{{ producto.proveedor }}</ng-template>
+        </td>
+
+        <!-- Almacén -->
+        <td class="px-6 py-4 text-sm text-gray-700">
+          <ng-container *ngIf="editandoIndex === i; else almView">
+            <select [(ngModel)]="producto.almacen" class="w-full p-1 border border-gray-300 rounded text-sm">
+              <option *ngFor="let a of [1,2,3,4,5]" [value]="'Almacén ' + a">Almacén {{ a }}</option>
+            </select>
+          </ng-container>
+          <ng-template #almView>{{ producto.almacen }}</ng-template>
+        </td>
+
+        <!-- Inventario -->
+        <td class="px-6 py-4 text-sm text-gray-700">
+          <ng-container *ngIf="editandoIndex === i; else invView">
+            <select [(ngModel)]="producto.inventario" class="w-full p-1 border border-gray-300 rounded text-sm">
+              <option *ngFor="let inv of [1,2,3,4,5]" [value]="'Inventario ' + inv">Inventario {{ inv }}</option>
+            </select>
+          </ng-container>
+          <ng-template #invView>{{ producto.inventario }}</ng-template>
+        </td>
+
+        <!-- Acciones -->
+        <td class="px-6 py-4 flex gap-2">
+          <ng-container *ngIf="editandoIndex !== i">
+            <button
+  (click)="tienePermisoActualizar() ? editarProducto(i) : mostrarMensajeSinPermiso()"
+  class="text-blue-600 hover:underline text-sm font-semibold">
+  Editar
+</button>
+            <button
+  (click)="tienePermisoEliminar() ? confirmarEliminar(i) : mostrarMensajeSinPermiso()"
+  class="text-red-600 hover:underline text-sm font-semibold">
+  Eliminar
+</button>
+          </ng-container>
+          <ng-container *ngIf="editandoIndex === i">
+            <button (click)="guardarEdicion(i)" class="text-green-600 hover:underline text-sm font-semibold">Guardar</button>
+            <button (click)="cancelarEdicion()" class="text-red-600 hover:underline text-sm font-semibold">Cancelar</button>
+          </ng-container>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+

@@ -1,0 +1,133 @@
+<div class="flex h-screen">
+  <!-- Sidebar -->
+  <aside class="w-64 bg-gray-800 text-white flex flex-col shadow-lg">
+    <div class="bg-cyan-400 p-4 flex items-center justify-center mb-2">
+      <h1 class="text-xl font-bold text-gray-800">Landmech</h1>
+    </div>
+
+    <nav class="flex flex-col text-sm font-medium">
+      <a routerLink="/presentacion" [ngClass]="{
+          'bg-cyan-600 text-white': esRutaActiva('/presentacion'),
+          'hover:bg-cyan-600': !esRutaActiva('/presentacion')
+        }" class="w-full px-6 py-3 transition mb-1">
+        Presentación
+      </a>
+      <a routerLink="/layout" [ngClass]="{
+          'bg-cyan-600 text-white': esRutaActiva('/layout'),
+          'hover:bg-cyan-600': !esRutaActiva('/layout')
+        }" class="w-full px-6 py-3 transition mb-1">
+        Inicio
+      </a>
+      <a routerLink="/inventario" [ngClass]="{
+          'bg-cyan-500 text-white': esRutaActiva('/inventario'),
+          'hover:bg-cyan-600': !esRutaActiva('/inventario')
+        }" class="w-full px-6 py-3 transition mb-1">
+        Productos
+      </a>
+      <a routerLink="/historial" [ngClass]="{
+          'bg-cyan-500 text-white': esRutaActiva('/historial'),
+          'hover:bg-cyan-600': !esRutaActiva('/historial')
+        }" class="w-full px-6 py-3 transition mb-1">
+        Historial
+      </a>
+      <a routerLink="/usuarios" [ngClass]="{
+          'bg-cyan-500 text-white': esRutaActiva('/usuarios'),
+          'hover:bg-cyan-600': !esRutaActiva('/usuarios')
+        }" class="w-full px-6 py-3 transition mb-1">
+        Usuarios
+      </a>
+      <a routerLink="/dashboard" [ngClass]="{
+          'bg-cyan-500 text-white': esRutaActiva('/dashboard'),
+          'hover:bg-cyan-600': !esRutaActiva('/dashboard')
+        }" class="w-full px-6 py-3 transition mb-1">
+        Dashboard
+      </a>
+      <a (click)="logout()" class="w-full px-6 py-3 transition text-red-300 hover:bg-red-600 hover:text-white mt-2 cursor-pointer">
+        Salir
+      </a>
+    </nav>
+  </aside>
+
+  <!-- Contenido principal -->
+  <main class="flex-1 bg-gray-100 p-10 overflow-y-auto flex flex-col relative">
+    <!-- Parte superior con mensaje y slider -->
+    <div class="flex flex-1 items-start mb-16">
+      <!-- Mensaje a la izquierda -->
+      <div class="w-1/2 pr-6 flex flex-col justify-center">
+        <h1 class="text-3xl font-bold text-gray-800 mb-4">
+          Bienvenido a la tienda de electrodomésticos Landmech
+        </h1>
+        <h2 class="text-xl font-semibold text-gray-700 mb-2">¿Quiénes somos?</h2>
+        <p class="text-gray-600 text-justify mb-6">
+          En <strong>Landmech</strong> nos dedicamos a ofrecer electrodomésticos innovadores para mejorar tu calidad de 
+          vida. Contamos con un sistema que facilita la gestión del inventario de manera intuitiva y segura.
+        </p>
+        <p class="text-gray-600 text-justify mb-6">
+          En este sistema encontrarás un contador de productos registrados, actualizados y eliminados,
+          el inventario de la empresa, historial de productos, lista de usuarios y un dashboard general.
+        </p>
+         <p class="text-gray-600 text-justify mb-6">
+          Landmech es una empresa dedicada a la comercialización de electrodomésticos, orientada a satisfacer las 
+          necesidades del hogar moderno mediante productos de alta calidad, tecnología avanzada y precios competitivos. 
+          Su enfoque está centrado en brindar una experiencia de compra eficiente, con atención personalizada y soporte 
+          post venta confiable. La empresa opera tanto en tiendas físicas como a través de plataformas digitales, lo que 
+          le permite llegar a un público amplio y diverso.
+        </p>
+        <h2 class="text-xl font-semibold text-gray-700 mb-2">¿Por qué se desarrollo este sistema?</h2>
+         <p class="text-gray-600 text-justify mb-6">
+          La empresa Landmech, dedicada a la comercialización de electrodomésticos, enfrenta actualmente serias 
+          limitaciones operativas debido a una gestión ineficiente de su sistema de inventario. Las actividades 
+          relacionadas con la administración y control de productos se desarrollan mediante hojas de cálculo y 
+          registros manuales, sin una integración adecuada entre áreas clave como almacén y gerencia. Esta falta de 
+          centralización genera duplicidad de datos, errores en el registro de productos, desactualización constante de 
+          inventarios y dificulta una toma de decisiones informada y fundamentada.
+        </p>
+      </div>
+
+      <!-- Slider a la derecha -->
+      <div class="w-1/2 flex justify-center">
+        <div class="relative w-[45rem] h-[32rem] overflow-hidden rounded-xl shadow-lg">
+          <img
+            *ngIf="imagenes.length"
+            [src]="imagenes[imagenActual]"
+            class="w-full h-full object-cover object-center transition-opacity duration-1000 ease-in-out"
+          />
+        </div>
+      </div>
+    </div>
+    <p class="absolute bottom-28 right-80 text-gray-700 text-sm font-medium bg-white/80 backdrop-blur-md px-4 py-2 rounded-md shadow">
+  Contáctanos de las siguientes maneras:
+</p>
+    <!-- Footer con botones -->
+    <footer class="absolute bottom-4 right-10 bg-white/80 backdrop-blur-md px-6 py-4 rounded-xl shadow-lg flex flex-wrap gap-4">
+      <!-- Gmail -->
+      <a href="https://mail.google.com/mail/?view=cm&fs=1&to=landmech@gmail.com" target="_blank"
+         class="flex items-center px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition">
+        <img src="assets/gmail.png" alt="Gmail" class="w-5 h-5 mr-2" />
+        Gmail
+      </a>
+
+      <!-- Facebook -->
+      <a href="https://www.facebook.com/LegionShuls?locale=es_LA" target="_blank"
+         class="flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
+        <img src="assets/facebook.png" alt="Facebook" class="w-5 h-5 mr-2" />
+        Facebook
+      </a>
+
+      <!-- WhatsApp -->
+      <a href="https://wa.me/51970376014" target="_blank"
+         class="flex items-center px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition">
+        <img src="assets/whatsapp.png" alt="WhatsApp" class="w-5 h-5 mr-2" />
+        WhatsApp
+      </a>
+
+      <!-- Teléfono directo -->
+      <div class="flex items-center px-4 py-2 bg-gray-700 text-white rounded-lg transition">
+  <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+    <path d="M3 5l6 6M21 3l-6 6m0 0L5 21m12-12l4 4" />
+  </svg>
+  967187105
+</div>
+    </footer>
+  </main>
+</div>

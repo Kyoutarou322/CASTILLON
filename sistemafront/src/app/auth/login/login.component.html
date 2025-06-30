@@ -1,0 +1,65 @@
+<div class="flex items-center justify-center h-screen bg-gray-100">
+
+  <div
+    class="w-full max-w-sm p-6 bg-blue-800 rounded-xl shadow-xl text-white h-[550px] flex flex-col items-center justify-center
+    transition-opacity duration-700 ease-in-out"
+    [class.opacity-0]="!loaded"
+    [class.opacity-100]="loaded"
+  >
+    <div class="w-full">
+      <h2 class="text-3xl font-bold mb-4 text-center">Acceso al Sistema</h2>
+
+      <div class="flex justify-center mb-6">
+        <img src="assets/default.jpg" alt="Usuario" class="w-24 h-24 rounded-full border-4 border-white shadow-md" />
+      </div>
+
+      <form (ngSubmit)="login()" class="space-y-4">
+        <input [(ngModel)]="usuario" name="usuario" placeholder="Usuario" required
+          class="w-full p-2 rounded border border-white text-black placeholder-gray-500" />
+
+        <div class="relative">
+          <input
+            [(ngModel)]="contrasena"
+            [type]="mostrarContrasena ? 'text' : 'password'"
+            name="contrasena"
+            placeholder="Contraseña"
+            required
+            class="w-full p-2 rounded border border-white text-black placeholder-gray-500 pr-10"
+          />
+          <button
+            type="button"
+            (click)="toggleContrasena()"
+            class="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-700 hover:text-white text-lg"
+          >
+            {{ mostrarContrasena ? '🙈' : '👁️' }}
+          </button>
+        </div>
+
+        <button type="submit"
+          class="w-full bg-white text-blue-800 font-bold p-2 rounded hover:bg-blue-900 hover:text-white transition duration-300">
+          Ingresar
+        </button>
+      </form>
+
+      <div *ngIf="cargando" class="flex justify-center mt-6">
+        <div class="animate-spin rounded-full h-6 w-6 border-t-2 border-white"></div>
+      </div>
+
+      <div *ngIf="error" class="text-white mt-3 text-sm text-center font-semibold">
+        Usuario o contraseña incorrectos.
+      </div>
+
+      <!-- 🔗 Enlace para registrarse -->
+      <div class="mt-6 text-center">
+        <span>¿No tienes una cuenta?</span>
+        <a
+          routerLink="/register"
+          class="text-cyan-300 hover:text-white font-semibold underline cursor-pointer transition-colors"
+        >
+          Regístrate ahora
+        </a>
+      </div>
+
+    </div>
+  </div>
+</div>

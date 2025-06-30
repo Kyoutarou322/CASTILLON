@@ -1,0 +1,91 @@
+<div class="flex h-screen">
+  <!-- Sidebar -->
+  <aside class="w-64 bg-gray-800 text-white flex flex-col shadow-lg">
+    <!-- Título -->
+    <div class="bg-cyan-400 p-4 flex items-center justify-center mb-2">
+      <h1 class="text-xl font-bold text-gray-800">Landmech</h1>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="flex flex-col text-sm font-medium">
+      <a
+        routerLink="/presentacion"
+        [ngClass]="{
+          'bg-cyan-600 text-white': esRutaActiva('/presentacion'),
+          'hover:bg-cyan-600': !esRutaActiva('/presentacion')
+        }"
+        class="w-full px-6 py-3 transition mb-1"
+      >
+        Presentación
+      </a>
+      <a routerLink="/layout" [ngClass]="{ 'bg-cyan-600 text-white': esRutaActiva('/layout'), 'hover:bg-cyan-600': !esRutaActiva('/layout') }" class="w-full px-6 py-3 transition mb-1">Inicio</a>
+      <a routerLink="/inventario" [ngClass]="{ 'bg-cyan-500 text-white': esRutaActiva('/inventario'), 'hover:bg-cyan-600': !esRutaActiva('/inventario') }" class="w-full px-6 py-3 transition mb-1">Productos</a>
+      <a routerLink="/historial" [ngClass]="{ 'bg-cyan-600 text-white': esRutaActiva('/historial'), 'hover:bg-cyan-600': !esRutaActiva('/historial') }" class="w-full px-6 py-3 transition mb-1">Historial</a>
+      <a routerLink="/usuarios" [ngClass]="{ 'bg-cyan-500 text-white': esRutaActiva('/usuarios'), 'hover:bg-cyan-600': !esRutaActiva('/usuarios') }" class="w-full px-6 py-3 transition mb-1">Usuarios</a>
+      <a routerLink="/dashboard" [ngClass]="{ 'bg-cyan-500 text-white': esRutaActiva('/dashboard'), 'hover:bg-cyan-600': !esRutaActiva('/dashboard') }" class="w-full px-6 py-3 transition mb-1">Dashboard</a>
+      <a routerLink="/login" class="w-full px-6 py-3 transition text-red-300 hover:bg-red-600 hover:text-white mt-2">Salir</a>
+    </nav>
+  </aside>
+
+  <!-- Contenido principal -->
+  <main class="flex-1 bg-gray-100 p-8 overflow-y-auto">
+    <!-- Título -->
+    <div class="space-y-4 mb-6">
+      <h1 class="text-3xl font-bold text-gray-800">
+        Historial de acciones
+      </h1>
+      <p class="text-gray-600">
+        Aquí se muestran los productos registrados, actualizados o eliminados en el sistema.
+      </p>
+    </div>
+
+    <!-- Tabla de historial -->
+<div class="overflow-auto bg-white shadow rounded-lg">
+  <table class="min-w-full divide-y divide-gray-200">
+    <thead class="bg-cyan-600 text-white">
+      <tr>
+        <th class="px-6 py-3 text-left text-xs font-bold uppercase">Fecha</th>
+        <th class="px-6 py-3 text-left text-xs font-bold uppercase">Tipo</th>
+        <th class="px-6 py-3 text-left text-xs font-bold uppercase">Nombre</th>
+        <th class="px-6 py-3 text-left text-xs font-bold uppercase">Categoría</th>
+        <th class="px-6 py-3 text-left text-xs font-bold uppercase">Cantidad</th>
+        <th class="px-6 py-3 text-left text-xs font-bold uppercase">Precio Unitario</th>
+        <th class="px-6 py-3 text-left text-xs font-bold uppercase">Total</th>
+        <th class="px-6 py-3 text-left text-xs font-bold uppercase">Estado</th>
+        <th class="px-6 py-3 text-left text-xs font-bold uppercase">Proveedor</th>
+        <th class="px-6 py-3 text-left text-xs font-bold uppercase">Almacén</th>
+        <th class="px-6 py-3 text-left text-xs font-bold uppercase">Inventario</th>
+        <th class="px-6 py-3 text-left text-xs font-bold uppercase">Usuario</th>
+      </tr>
+    </thead>
+    <tbody class="bg-white divide-y divide-gray-200">
+      <tr *ngFor="let registro of historial">
+        <td class="px-6 py-4 text-sm text-gray-700">{{ registro.fecha }}</td>
+        <td class="px-6 py-4 text-sm font-semibold" [ngClass]="{
+          'text-green-600': registro.tipo === 'Registro',
+          'text-yellow-600': registro.tipo === 'Actualización',
+          'text-red-600': registro.tipo === 'Eliminación'
+        }">
+          {{ registro.tipo }}
+        </td>
+        <td class="px-6 py-4 text-sm text-gray-700">{{ registro.nombre }}</td>
+        <td class="px-6 py-4 text-sm text-gray-700">{{ registro.categoria }}</td>
+        <td class="px-6 py-4 text-sm text-gray-700">{{ registro.cantidad }}</td>
+        <td class="px-6 py-4 text-sm text-gray-700">S/. {{ registro.precioUnitario }}</td>
+        <td class="px-6 py-4 text-sm text-gray-700">S/. {{ registro.total }}</td>
+        <td class="px-6 py-4 text-sm">
+          <span [ngClass]="{
+            'text-green-600 font-semibold': registro.estado === 'Activo',
+            'text-red-500 font-semibold': registro.estado !== 'Activo'
+          }">{{ registro.estado }}</span>
+        </td>
+        <td class="px-6 py-4 text-sm text-gray-700">{{ registro.proveedor }}</td>
+        <td class="px-6 py-4 text-sm text-gray-700">{{ registro.almacen }}</td>
+        <td class="px-6 py-4 text-sm text-gray-700">{{ registro.inventario }}</td>
+        <td class="px-6 py-4 text-sm text-gray-700">{{ registro.usuario }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+  </main>
+</div>
