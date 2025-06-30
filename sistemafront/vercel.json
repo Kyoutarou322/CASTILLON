@@ -9,7 +9,7 @@
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "sistema-soporte/sistemafront/dist/sistemafront/index.html"
+      "dest": "/index.html"
     }
   ]
 }
