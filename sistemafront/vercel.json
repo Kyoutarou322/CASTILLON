@@ -2,5 +2,5 @@
   "rewrites": [
     { "source": "/(.*)", "destination": "/index.html" }
   ],
-  "outputDirectory": "dist/sistemafront/browser"
+  "outputDirectory": "dist/sistemafront/browser/browser"
 }
