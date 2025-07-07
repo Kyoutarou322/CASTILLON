@@ -3,13 +3,13 @@
   "builds": [
     {
       "src": "sistemafront/package.json",
-      "use": "@vercel/static-build"
+      "use": "@vercel/angular"
     }
   ],
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "/index.html"
+      "dest": "sistemafront/index.html"
     }
   ]
 }
